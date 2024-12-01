@@ -7,6 +7,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { UPDATE_PARAMETER_TOOGLE } from "../../store/Parameters/Parameters.actions";
 import { BrandSelector } from "../../store/Brands/Brands.selector";
 import { createAds } from "../../utils/getImageGenerated";
+import { updateAdsAction } from "../../store/Ads/Ads.actions";
 
 
 const initialState = {
@@ -103,11 +104,11 @@ export const Parameters = () => {
       dispatch(UPDATE_PARAMETER_TOOGLE())
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log("Form Values:", formValues);
     const current_brand = brands.find((brand) => brand.id === formValues.organisation);
-    createAds(formValues, current_brand)
-    HandleToggle()
+    const response = await createAds(formValues, current_brand)
+    dispatch(updateAdsAction(response["generated_images"]))
   };
 
   return (

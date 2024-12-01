@@ -21,7 +21,7 @@ async def CreateImagesInLoop(campaign_details, prompt):
 
     # Generate a unique folder name
     unique_id = uuid4()
-    folder_name = f"{campaign_details.get('BrandName')}_{unique_id}"
+    folder_name = f"{campaign_details.get('brand_name')}_{unique_id}"
 
     # Lists to hold the generated filenames
     portrait_images_filenames = []

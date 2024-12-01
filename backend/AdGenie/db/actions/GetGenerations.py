@@ -2,7 +2,10 @@ import pymysql
 import os
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
+
+# Fetch database credentials from environment variables
 
 # Fetch database credentials from environment variables
 ENDPOINT = os.getenv("ENDPOINT")
@@ -12,9 +15,15 @@ DATABASE = os.getenv("DATABASE")
 PORT = os.getenv("PORT")
 
 
-def createBrandInDB(brand_name, brand_type, description, color_scheme):
+def getGenerationsByBrand(brand_id):
     """
-    Insert a new brand into the Brands table.
+    Fetch all generations associated with a specific brand.
+
+    Args:
+        brand_id (int): ID of the brand.
+
+    Returns:
+        list: List of generations associated with the brand.
     """
     connection = pymysql.connect(
         host=ENDPOINT,
@@ -27,19 +36,16 @@ def createBrandInDB(brand_name, brand_type, description, color_scheme):
     )
     try:
         with connection.cursor() as cursor:
-            # Insert a new brand into the Brands table
-            cursor.execute(
-                """
-                INSERT INTO Brands (brand_name, type, description, color_scheme)
-                VALUES (%s, %s, %s, %s)
-                """,
-                (brand_name, brand_type, description, color_scheme),
-            )
+            # SQL query to fetch generations by brand ID
+            sql = """
+                SELECT generation_id, generation_data
+                FROM generations
+                WHERE brand_id = %s
+            """
+            cursor.execute(sql, (brand_id,))
+            generations = cursor.fetchall()
 
-            # Commit the transaction
-            connection.commit()
-
-            print(f"Brand '{brand_name}' successfully created.")
+            return generations
 
     except pymysql.MySQLError as e:
         print(f"Database error: {e}")

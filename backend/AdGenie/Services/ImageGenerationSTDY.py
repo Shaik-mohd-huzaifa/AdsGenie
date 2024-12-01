@@ -42,10 +42,10 @@ def generateImageAndSaveInS3(prompt, filename, foldername, aspect_ratio):
     # Initialize the S3 client with the provided credentials
     s3_client = boto3.client(
         "s3",
-        aws_access_key_id=AWS_ACCESS_KEY_ID_PERSONAL,
-        aws_secret_access_key=AWS_SECRET_ACCESS_KEY_PERSONAL,
+        aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID_PERSONAL"),
+        aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY_PERSONAL"),
         # aws_session_token=AWS_SESSION_TOKEN,  # Only if using temporary credentials
-        region_name=AWS_DEFAULT_REGION_PERSONAL,
+        region_name=os.getenv("AWS_DEFAULT_REGION_PERSONAL"),
     )
 
     # S3 bucket and file details

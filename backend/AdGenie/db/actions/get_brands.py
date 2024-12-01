@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Fetch database credentials from environment variables
+
+# Fetch database credentials from environment variables
 ENDPOINT = os.getenv("ENDPOINT")
 USER = os.getenv("USER")
 PASSWORD = os.getenv("PASSWORD")

@@ -7,11 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrandSelector } from "../../store/Brands/Brands.selector";
 import { updateBrands } from "../../store/Brands/Brands.Actions";
 import { IoMdColorPalette } from "react-icons/io";
+import { getBrandImages } from "../../utils/getGenImages";
 
 
 export const Organisation = () => {
     const Brands = useSelector(BrandSelector); // Accessing Redux store brands
     const dispatch = useDispatch();
+    const [currentBrandImages, setCurrentBrandImages] = useState([])
 
     useEffect(() => {
         async function fetchBrands() {
@@ -26,7 +28,13 @@ export const Organisation = () => {
         }
         fetchBrands();
     }, [dispatch]); // Added `dispatch` to the dependency array
+    
 
+    async function fetchGeneratedImages(id){
+        const response = await getBrandImages(id)
+        console.log(response)
+        setCurrentBrandImages(response)
+    }
     return (
         <div className="organisation-container">
             <h1>Brands</h1>
@@ -45,7 +53,7 @@ export const Organisation = () => {
                         <p>{brand.description}</p>
                         <p className="type">{brand.type}</p>
                         <p className="color-scheme"><IoMdColorPalette/> {brand.color_scheme}</p>
-                        <button>Details</button>
+                        <button onClick={() => fetchGeneratedImages(brand.id)}>Details</button>
                         </div>
                     ))
                 ) : (
